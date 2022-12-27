@@ -1,5 +1,4 @@
 from django.contrib import admin
-# Register your models here.
 from django.contrib.admin import ModelAdmin
 from django.http import HttpResponseRedirect
 from django.urls import path
@@ -62,11 +61,11 @@ class Info(ModelAdmin):
 
 @admin.register(Category)
 class Category(ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'show_image')
     exclude = ('slug',)
 
-    # def show_image(self, obj):
-    #     return format_html(f'<img src="{obj.image.url}" style="width:200px; height:100px" >')
+    def show_image(self, obj):
+        return format_html(f'<img src="{obj.image.url}" style="width:120px; height:100px" >')
 
 
 @admin.register(Comment)

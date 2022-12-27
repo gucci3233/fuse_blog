@@ -17,6 +17,7 @@ from apps.forms import RegisterForm, LoginForm, UpdateForm, EditProfile, AddPost
     LeaveCommentForm, MessageForm
 from apps.models import Post, Category, User, Comment, PostViewHistory
 from apps.utils import render_to_pdf, send_to_gmail, one_time_token
+from apps.utils.token import account_activation_token
 
 
 class AccountSettingMixin(View):
@@ -301,3 +302,27 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def __repr__(self):
         return "Item"
+
+
+class ActivateEmailView(TemplateView):
+    template_name = 'apps/auth/confirm_mail.html'
+
+    def get(self, request, *args, **kwargs):
+        uid = kwargs.get('uid')
+        token = kwargs.get('token')
+
+        try:
+            uid = force_str(urlsafe_base64_decode(uid))
+            user = User.objects.get(pk=uid)
+        except Exception as e:
+            user = None
+        if user and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect('login')
+        else:
+            return HttpResponse('Activation link is invalid!')
+
+
+

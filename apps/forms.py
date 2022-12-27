@@ -3,8 +3,6 @@ from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.db.transaction import atomic
 from django.forms import ModelForm, PasswordInput, CharField, ModelMultipleChoiceField, CheckboxSelectMultiple
-from django.utils.encoding import force_str
-from django.utils.http import urlsafe_base64_decode
 
 from apps.models import User, Comment, Category, Post, Message
 
@@ -41,7 +39,7 @@ def save(self):
 class LeaveCommentForm(ModelForm):
     class Meta:
         model = Comment
-        # fields = ('author', 'comment', 'created_at')
+        fields = ('author', 'comment',)
         exclude = ()
 
 
@@ -87,6 +85,7 @@ class AddPostForm(ModelForm):
         queryset=Category.objects.order_by('name'),
         label='Category',
         widget=CheckboxSelectMultiple
+
     )
 
     class Meta:

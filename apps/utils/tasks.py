@@ -40,8 +40,6 @@ def send_to_gmail(email, domain, _type='activation'):
     return result
 
 
-
-
 @shared_task
 def send_message_to_gmail(email):
     subject = 'Thanks for your invitation!'
@@ -51,7 +49,6 @@ def send_message_to_gmail(email):
     print(subject, message, from_email, recipient_list)
     result = send_mail(subject, message, from_email, recipient_list)
     return result
-
 
 
 @shared_task

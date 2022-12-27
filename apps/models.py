@@ -1,15 +1,13 @@
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
-
-from django_resized import ResizedImageField
-
-# Create your models here.
 from django.db.models import EmailField, CharField, Model, SlugField, ImageField, ForeignKey, SET_NULL, ManyToManyField, \
-    DateField, TextField, SET_DEFAULT, CASCADE, TextChoices, IntegerField, DateTimeField, JSONField, PROTECT, \
+    TextField, CASCADE, TextChoices, DateTimeField, JSONField, PROTECT, \
     BooleanField
+from django.db.models import Manager
 from django.utils.html import format_html
 from django.utils.text import slugify
+from django_resized import ResizedImageField
 
 
 class Info(Model):
@@ -26,8 +24,8 @@ class User(AbstractUser):
     biography = TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Foydalanuvchi' # noqa
-        verbose_name_plural = 'Foydalanuvchilar' # noqa
+        verbose_name = 'Foydalanuvchi'  # noqa
+        verbose_name_plural = 'Foydalanuvchilar'  # noqa
 
     @property
     def full_name(self):
@@ -67,9 +65,6 @@ class Category(Model):
 
     def __str__(self):
         return self.name
-
-
-from django.db.models import Manager
 
 
 class ActivePostManager(Manager):

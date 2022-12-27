@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from apps.views import BlogListView, AboutPageView, ContactPageView, BlogPageView, UserUpdateView, RegisterPageView, \
     LoginPageView, CustomLogoutView, MainPageView, ProfileSettingView, AddPostView, GeneratePdf, ChangePasswordView, \
-    ResetPasswordView
+    ResetPasswordView, ActivateEmailView
 
 urlpatterns = [
     path('', MainPageView.as_view(), name='main_page_view'),
@@ -21,6 +21,6 @@ urlpatterns = [
     path('logout', CustomLogoutView.as_view(), name='logout_view'),
     path('edit-profile/', ProfileSettingView.as_view(), name='edit_profile_view'),
     path('add-post/', AddPostView.as_view(), name='add_post_view'),
-
+    path('activate/<str:uid>/<str:token>', ActivateEmailView.as_view()),
     path('oauth/', include('social_django.urls', namespace='social')),
 ]
