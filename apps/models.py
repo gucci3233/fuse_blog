@@ -26,8 +26,8 @@ class User(AbstractUser):
     biography = TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = 'Foydalanuvchi'
-        verbose_name_plural = 'Foydalanuvchilar'
+        verbose_name = 'Foydalanuvchi' # noqa
+        verbose_name_plural = 'Foydalanuvchilar' # noqa
 
     @property
     def full_name(self):
@@ -114,8 +114,11 @@ class Post(Model):
             f'''<a style="color: red; font-size: 1em;margin-top: 8px; margin: auto;">Tasdiqlanmagan</a>''')
 
     class Meta:
-        verbose_name = "Po'st"
-        verbose_name_plural = "Po'stlar"
+        verbose_name = "Post"
+        verbose_name_plural = "Postlar"
+
+    def __str__(self):
+        return self.title
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         # if not self.slug:

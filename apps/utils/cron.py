@@ -1,13 +1,12 @@
+import datetime
 import os
 
 import django
-from django.db.models import Q
+
+from apps.models import Post
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "root.settings")
 django.setup()
-
-from apps.models import Post
-import datetime
 
 
 def cron_job():

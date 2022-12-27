@@ -16,7 +16,6 @@ from django.views.generic import TemplateView, ListView, DetailView, UpdateView,
 from apps.forms import RegisterForm, LoginForm, UpdateForm, EditProfile, AddPostForm, ChangePasswordForm, \
     LeaveCommentForm, MessageForm
 from apps.models import Post, Category, User, Comment, PostViewHistory
-# Create your views here.
 from apps.utils import render_to_pdf, send_to_gmail, one_time_token
 
 

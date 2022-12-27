@@ -18,16 +18,19 @@ class Post(ModelAdmin):
     change_form_template = "admin/custom/change_form.html"
 
     def show_main_picture(self, obj):
-        return format_html(f'<img src="{obj.main_picture.url}" style="width:200px; height:100px" >')
+        return format_html(f'<img src="{obj.main_picture.url}" style="width:120px; height:110px" >')
 
     def category_set(self, obj):
         return format_html(f'<b>{obj.category.first()} </b>')
 
     def status_choice(self, obj):
         data = {
-            'pending': '<i class="fas fa-circle-notch fa-spin"></i>',
-            'active': '<i class="fa-solid fa-check" style="color: green; font-size: 1em;margin-top: 8px; margin: auto;"></i>',
-            'cancel': '<i class="fa-solid fa-circle-xmark"  style="color: red; font-size: 1em;margin-top: 8px; margin: auto;"></i>'
+            'pending': '<i class="fa-solid fa-hourglass-start" style="color: grey; font-size: 1.8em;margin-top: 8px; margin: auto;"style="color : yellow "></i>',
+            # noqa
+            'active': '<i class="fa-solid fa-check" style="color: green; font-size: 1.8em;margin-top: 8px; margin: auto;"style="color : green "></i>',
+            # noqa
+            'cancel': '<i class="fa-solid fa-circle-xmark"  style="color: red; font-size: 1.8em;margin-top: 8px; margin: auto;" style="color : red "></i>'
+            # noqa
         }
         return format_html(data[obj.status])
 
