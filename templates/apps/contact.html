@@ -1,0 +1,50 @@
+{% extends 'apps/parts/base.html' %}
+{% block title %} Contact {% endblock title %}
+{% block content %}
+    <div class="no-pd" id="content">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li><a href="index.html"> <i class="fas fa-home"></i>Home</a></li>
+                    <li class="active"><a href="#">Contact us</a></li>
+                </ul>
+            </div>
+            <div class="contact-us">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="contact-us__info">
+                            <h3 class="contact-title">GET IN TOUCH</h3>
+                            <p class="contact-description">Contact Description</p>
+                            <div class="contact-method">
+                                <div class="contact-method__item"><i class="fas fa-map-marker-alt"></i>
+                                    <p>{{ info.location }}</p>
+                                </div>
+                                <div class="contact-method__item"><i class="fas fa-mobile-alt"></i>
+                                    <p>{{ info.phone }}</p>
+                                </div>
+                                <div class="contact-method__item"><i class="far fa-envelope-open"></i></i>
+                                    <p>{{ info.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="contact-us__form">
+                            <h3 class="contact-title">LEAVE A MESSAGE</h3>
+                            <form action="{% url 'contact_view' %}" method="post">
+                                {% csrf_token %}
+                                <input type="text" placeholder="Name" name="name"/>
+                                <textarea name="message" cols="30" rows="8" placeholder="Message"></textarea>
+                                <button type="submit" class="btn -normal">Send message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+  

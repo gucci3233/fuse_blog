@@ -1,0 +1,119 @@
+{% extends 'apps/parts/base.html' %}
+{% block content %}
+    {% load static %}
+    <div class="post">
+        <div class="container">
+            <div class="post-standard">
+                <div class="post-standard__banner">
+                    <div class="post-standard__banner__image">
+                        <img src="{{ post.main_picture.url }}" alt="Post banner image"/>
+                    </div>
+                    <div class="post-standard__banner__content">
+                        <div class="post-card -center">
+                            <div></div>
+                            <div class="card__content">
+                                <h5 class="card__content-category">{{ post.category.first.name }}</h5>
+                                <a class="card__content-title"
+                                   href="{% url 'blog_category_view' %}">{{ post.title }}</a>
+                                <div class="card__content-info">
+                                    <div class="row p-2">
+                                        <div class="col-md-12">
+                                            <div class="info__time">
+                                                <i class="far fa-clock"></i>
+                                                <p>{{ post.created_at }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <i class="far fa-eye"></i>
+                                            <p>{{ view.viewed_at }}</p>
+                                            <i class="far fa-comment  pl-3"></i>
+                                            <p>{{ post.comment_count }}</p>
+                                            {#                                        </div>#}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-14 col-md-12 mx-auto">
+                        <div class="post-standard__content">
+                            <p>{{ post.description|safe }}</p>
+                            <div class="post-footer">
+                                <div class="post-footer__tags center">
+                                    <div class="tags-group">
+                                        {% for category in categories %}
+                                            <a class="tag-btn"
+                                               href="{% url 'category' %}?category={{ category.slug }}">{{ category.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% if post.author %}
+                                    <div class="post-footer__author">
+                                        <div class="author__avatar">
+                                            {% if post.author.image %}
+                                                <!-- img size 150 x 150 -->
+                                                <img src="{{ post.author.image.url }}" alt="Author avatar"/>
+                                            {% endif %}
+                                        </div>
+                                        <!-- Author Info -->
+                                        <div class="author__info">
+                                            <h5>{{ post.author.first_name }}</h5>
+                                            <p>{{ post.author.biography }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% if post.comment_count %}
+                                <div class="post-footer__comment">
+                                    <h3 class="comment-title"><span>{{ post.comment_count }} comment</span></h3>
+                                    <div class="post-footer__comment__detail">
+                                        {% for comment in post.comment_set.all %}
+                                            <div class="comment__item">
+                                                <div class="comment__item__avatar">
+                                                    {% if comment.author.image %}
+                                                        <img src="{{ comment.author.image.url }}" alt="Author avatar"/>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="comment__item__content">
+                                                    <div class="comment__item__content__header">
+                                                        <h5>{{ comment.author.username }}</h5>
+                                                        <div class="data">
+                                                            <p>
+                                                                <i class="far fa-clock"></i>{{ comment.created_at }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <p>{{ comment.comment }}</p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if user.is_authenticated %}
+                                <h3 class="comment-title">
+                                    <span>Leave a comment</span>
+                                </h3>
+                                <div class="post-footer__comment__form">
+                                    <form action="{% url 'blog_category_view' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="post" value="{{ post.id }}">
+                                        <textarea rows="5" placeholder="Message" name="comment"></textarea>
+                                        <div class="center">
+                                            <button class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                    {#                                    <a class="btn btn-outline-primary" href="{% url 'make_pdf' post.slug %}">Render To#}
+                                    {#                                        Pdf</a>#}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
