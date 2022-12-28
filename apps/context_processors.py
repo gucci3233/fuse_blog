@@ -1,11 +1,4 @@
 from apps.models import Post, Category, Info
-from root import settings
-
-
-def custom_posts(request):
-    return {
-        "custom_posts": Post.objects.order_by('-created_at')
-    }
 
 
 def custom_categories(request):
@@ -17,4 +10,10 @@ def custom_categories(request):
 def site_info(request):
     return {
         "info": Info.objects.first()
+    }
+
+
+def custom_posts(request):
+    return {
+        "custom_posts": Post.active.order_by('-created_at')
     }

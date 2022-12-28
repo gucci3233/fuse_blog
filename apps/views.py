@@ -323,6 +323,3 @@ class ActivateEmailView(TemplateView):
             return redirect('login')
         else:
             return HttpResponse('Activation link is invalid!')
-
-
-
