@@ -69,6 +69,9 @@ class Category(Model):
 
 class ActivePostManager(Manager):
     def get_queryset(self):
+        return super().get_queryset().all()
+
+    def active_posts(self):
         return super().get_queryset().filter(status=Post.Status.ACTIVE)
 
     def trending_posts(self):
@@ -89,41 +92,40 @@ class Post(Model):
     slug = SlugField(max_length=255, unique=True)
     status = CharField(max_length=50, choices=Status.choices, default=Status.PENDING)
     created_at = DateTimeField(auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-            while Post.objects.filter(slug=self.slug).exists():
-                slug = Post.objects.filter(slug=self.slug).first().slug
-                if '-' in slug:
-                    try:
-                        if slug.split('-')[-1] in self.title:
-                            self.slug += '-1'
-                        else:
-                            self.slug = '-'.join(slug.split('-')[:-1]) + '-' + str(int(slug.split('-')[-1]) + 1)
-                    except:
-                        self.slug = slug + '-1'
-                else:
-                    self.slug += '-1'
-
-        super().save(*args, **kwargs)
-
     active = ActivePostManager()
     objects = Manager()
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        # if not self.slug:
+        self.slug = slugify(self.title)
+        while Post.objects.filter(slug=self.slug).exists():
+            slug = Post.objects.filter(slug=self.slug).first().slug
+            if '-' in slug:
+                try:
+                    if slug.split('-')[-1] in self.title:
+                        self.slug += '-1'
+                    else:
+                        self.slug = '-'.join(slug.split('-')[:-1]) + '-' + str(int(slug.split('-')[-1]) + 1)
+                except:
+                    self.slug = slug + '-1'
+            else:
+                self.slug += '-1'
+
+        super().save(force_insert, force_update, using, update_fields)
 
     def status_button(self):
         if self.status == Post.Status.PENDING:
             return format_html(
-                f'''<a href="active/{self.id}" style="background-color: #0CAD0F ;" value="Active" class="button">Active</a>|
-                        <a href="cancel/{self.id}" style="background-color: #E61411;" value="Active"class="button">Cancel</a>'''
+                f'''<a href="active/{self.id}" style="background-color: #0CAD0F ;" value="Active" class="button">Active</a>
+                        <a href="cancel/{self.id}" style="background-color: #B91C17;" value="Active"class="button">Cancel</a>'''
             )
         elif self.status == Post.Status.ACTIVE:
             return format_html(
-                f'''<a style="color: green; font-size: 1em;margin-top: 8px; margin: auto;">Tasdiqlangan</a> |
-                    <a href="cancel/{self.id}" style="background-color: #E61411;" value="Active"class="button">Cancel</a''')
+                f'''<a style="color: green; font-size: 1em;margin-top: 8px; margin: auto;">Tasdiqlangan</a>
+                    <a href="cancel/{self.id}" style="background-color: #B91C17;" value="Active"class="button">Cancel</a''')
 
         return format_html(
-            f'''<a style="color: red; font-size: 1em;margin-top: 8px; margin: auto;">Tasdiqlanmagan</a> |
+            f'''<a style="color: red; font-size: 1em;margin-top: 8px; margin: auto;">Tasdiqlanmagan</a>
                 <a href="active/{self.id}" style="background-color: #0CAD0F ;" value="Active" class="button">Active</a>''')
 
     class Meta:
