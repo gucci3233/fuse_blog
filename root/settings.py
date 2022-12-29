@@ -1,14 +1,7 @@
 import os
 from pathlib import Path
 
-import environ
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-env = environ.Env()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR / '.env'))
 
 SECRET_KEY = 'django-insecure-50jh*d#fzlp(on1_!aqh^)$))cbc4+4vofma%7vhvf-$^@$1wo'
 
@@ -93,7 +86,7 @@ WSGI_APPLICATION = 'root.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fuse_db',
+        'NAME': 'adkhamjon_fuse',
         'USER': 'postgres',
         'PASSWORD': 1,
         'HOST': 'localhost',
@@ -187,13 +180,11 @@ CKEDITOR_CONFIGS = {
         'tabSpaces': 4,
         'extraPlugins': ','.join([
             'uploadimage',  # the upload image feature
-            # your extra plugins here
             'div',
             'autolink',
             'autoembed',
             'embedsemantic',
             'autogrow',
-            # 'devtools',
             'widget',
             'lineutils',
             'clipboard',
@@ -251,11 +242,6 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Tashkent'
-
-# TWILIO_VERIFY_SERVICE_SID = env('TWILIO_VERIFY_SERVICE_SID')
-# TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
-# TWILIO_AUTH_TOKEN = env('TWILIO_AUTH_TOKEN')
-
 
 DJANGORESIZED_DEFAULT_KEEP_META = True  # noqa
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'  # noqa

@@ -42,7 +42,7 @@
                                         </div>
                                         <!-- post Description -->
                                         <p class="card__content-description">{{ main_blog.description|striptags|safe|truncatechars:200 }}</p>
-                                        <a class="more-btn" href="{% url 'post_view' main_blog.slug%}">Read more </a>
+                                        <a class="more-btn" href="{% url 'post_view' main_blog.slug %}">Read more </a>
                                     </div>
                                 </div>
                             </div>
