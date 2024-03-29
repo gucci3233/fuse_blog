@@ -69,7 +69,7 @@ class Category(Model):
 
 class ActivePostManager(Manager):
     def get_queryset(self):
-        return super().get_queryset().all()
+        return super().get_queryset().filter(status=Post.Status.ACTIVE)
 
     def active_posts(self):
         return super().get_queryset().filter(status=Post.Status.ACTIVE)
